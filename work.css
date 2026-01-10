@@ -1,0 +1,124 @@
+body {
+    background-color:rgb(20, 20, 20);
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.gallery-item {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.gallery-item:hover {
+  transform: scale(1.05);
+}
+
+/* Reset margin */
+body {
+  margin: 0;
+  font-family: Consolas, monospace;
+}
+
+/* Top bar styling */
+.top-bar {
+  width: 100%;
+  height: 200px; /* height of the bar */
+  background-color: rgb(17, 17, 17); /* dark background */
+  color: white;
+  display: flex;
+  justify-content: space-between; /* space between logo and links */
+  align-items: center; /* vertically center content */
+  padding: 0 20px; /* horizontal padding */
+  position: fixed; /* keeps it on top when scrolling */
+  top: 0;
+  left: 0;
+  z-index: 1000; /* ensures it’s above other content */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3); /* optional shadow */
+}
+
+/* Logo */
+.top-bar .logo {
+  font-size:1.5px;
+  font-weight: bold;
+  height: auto;
+  width: 30px;
+}
+
+/* Links */
+.top-bar .nav-links a {
+  color: white;
+  text-decoration: none;
+  margin-left: 20px;
+  font-size: 1rem;
+  transition: color 0.2s;
+  align-content: center;
+}
+
+.top-bar .nav-links a:hover {
+  color: rgb(43, 1, 63); /* highlight on hover */
+}
+
+/* Add spacing so content doesn’t hide behind fixed header */
+main {
+  padding-top: 80px;}
+
+  header {
+  height: 100vh;
+
+  background: linear-gradient(rgb(0, 0, 0),
+      rgb(0, 0, 0),
+      rgb(43, 1, 63),
+      rgb(43, 1, 63),
+      rgb(0, 0, 0),
+      rgba(20, 20, 20, 0.521))    ;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+}
+
+h1 {
+  color: white;
+}
+
+
+.drop-zone {
+  border: 2px dashed #666;
+  border-radius: 12px;
+  padding: 40px;
+  margin: 40px auto;
+  width: 80%;
+  max-width: 600px;
+  color: #aaa;
+  text-align: center;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.drop-zone.dragover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgb(43, 1, 63);
+  color: white;
+}
+
+p {
+  color: white;
+}
+
+.logo {
+  width: 20px;
+  height: auto; 
+
+}
+
