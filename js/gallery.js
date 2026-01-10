@@ -1,7 +1,7 @@
 const gallery = document.getElementById('gallery');
 
 // How many images are in your folder
-const totalImages = 4; // <-- update this if you add more
+const totalImages = 6; // <-- update this if you add more
 
 for (let i = 1; i <= totalImages; i++) {
   const img = document.createElement('img');
@@ -11,3 +11,4 @@ for (let i = 1; i <= totalImages; i++) {
 
   gallery.appendChild(img);
 }
+
