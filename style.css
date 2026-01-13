@@ -3,63 +3,81 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 /* ---------- GLOBAL ---------- */
 body {
   background-color: rgb(20, 20, 20);
   color: #eaeaea;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+    'Open Sans', 'Helvetica Neue', sans-serif;
   line-height: 1.6;
-
 }
 
-.second-body {
+/* ---------- NAV BAR ---------- */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.top-bar {
+  height: 125px;
+  background-color: rgb(17, 17, 17);
   display: flex;
-  /* Enable Flexbox */
-  justify-content: left;
-  /* Center horizontally */
   align-items: center;
-  /* Center vertically */
-  height: 100vh;
-  /* Full viewport height */
-  margin: 0;
-  /* Remove default margin */
-  flex-direction: column;
-  /* Stack items vertically */
-  text-align: center;
-  /* Center text inside elements */
+  justify-content: space-between;
+  padding: 0 24px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.4);
 }
 
-a {
+.logo img {
+  height: 80px;
+  width: auto;
+}
+
+.nav-links {
+  display: flex;
+  gap: 25px;
+}
+
+.nav-links a {
   color: #eaeaea;
   text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.2s ease;
 }
 
-/* ---------- HEADER ---------- */
-header {
-  height: 100vh;
+.nav-links a:hover {
+  color: rgb(43, 1, 63);
+}
 
-  background: linear-gradient(rgb(0, 0, 0),
-      rgb(0, 0, 0),
-      rgb(43, 1, 63),
-      rgb(43, 1, 63),
-      rgb(0, 0, 0),
-      rgba(20, 20, 20, 0.521))    ;
+/* ---------- HERO ---------- */
+.hero {
+  height: 100vh;
+  background: linear-gradient(
+    rgb(0, 0, 0),
+    rgb(0, 0, 0),
+    rgb(43, 1, 63),
+    rgb(43, 1, 63),
+    rgb(0, 0, 0),
+    rgba(20, 20, 20, 0.52)
+  );
 
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
   text-align: center;
+
+  padding-top: 80px; /* space for fixed nav */
 }
 
 .hero-text h1 {
-font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-font-size: 3rem;
-letter-spacing: 2px;
+  font-size: 3rem;
+  letter-spacing: 2px;
 }
 
 .hero-text p {
@@ -68,44 +86,28 @@ letter-spacing: 2px;
   color: #bbbbbb;
 }
 
-/* ---------- SECTIONS ---------- */
-section {
+/* ---------- MAIN CONTENT ---------- */
+.second-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 80px 10%;
+  text-align: center;
 }
 
-h2 {
-  font-size: 2rem;
-  margin-bottom: 20px;
-  border-left: 4px solid #ffffff;
-  padding-left: 10px;
-}
-
-/* ---------- ABOUT ---------- */
-.about p {
-  max-width: 700px;
-  color: #cccccc;
-}
-
-/* ---------- GALLERY ---------- */
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-}
-
-.gallery img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 4px;
-  transition: transform 0.3s ease;
-}
-
-.gallery img:hover {
-  transform: scale(1.03);
+/* ---------- IMAGE PREVIEW ---------- */
+.img {
+  width: 50%;
+  max-width: 500px;
+  margin: 40px auto;
+  display: block;
 }
 
 /* ---------- CONTACT ---------- */
+.contact {
+  margin-top: 40px;
+}
+
 .contact p {
   color: #cccccc;
 }
@@ -115,7 +117,12 @@ h2 {
   margin-top: 15px;
   padding: 10px 20px;
   border: 1px solid #ffffff;
+  color: #ffffff;
   transition: 0.3s;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #eaeaea;
+  text-decoration: none;
+
 }
 
 .contact a:hover {
@@ -133,87 +140,18 @@ footer {
 
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 768px) {
-  .hero-text {
+  .hero-text h1 {
     font-size: 2.2rem;
   }
 
-  section {
-    padding: 60px 6%;
+  .img {
+    width: 90%;
   }
 }
 
-a {
-  font-size: 2rem;
-  margin-bottom: 20px;
-  border-left: 4px solid #ffffff;
-  padding-left: 10px;
-  align-content: center;
-  box-align: center;
-}
-
-img {
-  width: 10%; /* this the size of the top left logo */
-  height: auto;
-  margin: 0 auto;
-  display: block;
-  align-items: left;
-}
-
-/* Reset margin */
 body {
-  margin: 0;
-  font-family: Consolas, monospace;
-  box-align: left;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+    'Open Sans', 'Helvetica Neue', sans-serif;
 }
-
-/* Top bar styling */
-.top-bar {
-  width: 100%;
-  height: 125px; /* height of the bar */
-  background-color: rgb(17, 17, 17); /* dark background */
-  color: white;
-  display: flex;
-  justify-content: space-between; /* space between logo and links */
-  align-items: center;; /* vertically center content */
-  padding: 0 20px; /* horizontal padding */
-  position: fixed; /* keeps it on top when scrolling */
-  top: 0;
-  left: 0;
-  z-index: 1000; /* ensures it’s above other content */
-  box-shadow: 0 2px 5px rgba(0,0,0,0.3); /* optional shadow */
-}
-
-/* Logo */
-.top-bar .logo img {
-  font-size:1.5px;
-  font-weight: bold;
-  align-items: left;
-  width: 120px;
-  height: auto; 
-}
-
-/* Links */
-.top-bar .nav-links a {
-  color: white;
-  text-decoration: none;
-  margin-left: 20px;
-  font-size: 1rem;
-  transition: color 0.2s;
-  align-content: right;
-}
-
-.top-bar .nav-links a:hover {
-  color: rgb(43, 1, 63); /* highlight on hover */
-}
-
-/* Add spacing so content doesn’t hide behind fixed header */
-main {
-  padding-top: 80px;
-}
-
-.img {
-font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-
-
 
