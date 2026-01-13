@@ -5,7 +5,7 @@ const caption = document.getElementById('lightbox-caption');
 const closeBtn = document.getElementById('close-lightbox');
 
 // Total number of images in your gallery folder
-const totalImages = 6; // <-- adjust to match your images
+const totalImages = 7; // <-- adjust to match your images
 
 for (let i = 1; i <= totalImages; i++) {
   const img = document.createElement('img');
@@ -33,3 +33,4 @@ lightbox.addEventListener('click', (e) => {
     lightbox.style.display = 'none';
   }
 });
+
