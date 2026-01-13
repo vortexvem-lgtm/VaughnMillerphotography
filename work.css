@@ -1,5 +1,6 @@
 body {
     background-color:rgb(20, 20, 20);
+    padding-top: 80px;
 }
 
 .gallery {
@@ -31,14 +32,14 @@ body {
 .top-bar {
   width: 100%;
   height: 125px; /* height of the bar */
-  background-color: rgb (17, 17, 17); /* dark background */
+  background-color: rgb(17, 17, 17); /* dark background */
   color: white;
   display: flex;
   justify-content: space-between; /* space between logo and links */
   align-items: center; /* vertically center content */
   padding: 0 20px; /* horizontal padding */
   position: fixed; /* keeps it on top when scrolling */
-  top: 0;
+  top: 20;
   left: 0;
   z-index: 1000; /* ensures it’s above other content */
   box-shadow: 0 2px 5px rgba(0,0,0,0.3); /* optional shadow */
@@ -60,34 +61,17 @@ body {
   font-size: 1rem;
   transition: color 0.2s;
   align-content: center;
+  margin-right: 75px;
+  font-size: 21px;
+  
+
 }
 
 .top-bar .nav-links a:hover {
   color: rgb(43, 1, 63); /* highlight on hover */
 }
 
-/* Add spacing so content doesn’t hide behind fixed header */
-main {
-  padding-top: 80px;}
 
-  header {
-  height: 100vh;
-
-  background: linear-gradient(rgb(0, 0, 0),
-      rgb(0, 0, 0),
-      rgb(43, 1, 63),
-      rgb(43, 1, 63),
-      rgb(0, 0, 0),
-      rgba(20, 20, 20, 0.521))    ;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  text-align: center;
-}
 
 h1 {
   color: white;
@@ -120,6 +104,22 @@ p {
   width: 20px;
   height: auto; 
 
+}
+
+.site-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.top-bar {
+  height: 125px;
+  background-color: rgb(17, 17, 17);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
 }
 
 
@@ -161,6 +161,29 @@ p {
   text-align: center;
 }
 
+h2 {
+  color: rgb(17, 17, 17);
+}
 
+.hero {
+  height: 100vh;
+  background: linear-gradient(
+    rgb(0, 0, 0),
+    rgb(0, 0, 0),
+    rgb(43, 1, 63),
+    rgb(43, 1, 63),
+    rgb(0, 0, 0),
+    rgba(20, 20, 20, 0.5)
+  );
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero-text h1 {
+  font-size: 3rem;
+  letter-spacing: 2px;
+}
 
