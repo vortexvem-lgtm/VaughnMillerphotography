@@ -24,33 +24,33 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 40px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+  padding: 0 24px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
 }
 
-/* Logo image */
 .logo img {
-  height: 40px;
+  height: 80px;
   width: auto;
-  display: block;
 }
 
-/* Nav links */
 .nav-links {
   display: flex;
-  gap: 25px;
+  gap: 24px;
 }
 
 .nav-links a {
   color: #eaeaea;
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 20px;
+  font-weight: 400;
   transition: color 0.2s ease;
 }
 
 .nav-links a:hover {
   color: rgb(43, 1, 63);
 }
+
+
 
 /* ---------- HERO SECTION ---------- */
 .hero {
@@ -63,7 +63,7 @@ body {
 }
 
 .hero-text h1 {
-  font-size: 3rem;
+  font-size: 5.5rem;
   letter-spacing: 2px;
 }
 
