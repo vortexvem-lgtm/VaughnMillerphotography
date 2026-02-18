@@ -13,7 +13,6 @@
   <!-- NAV BAR -->
   <header class="site-header">
     <div class="top-bar">
-
       <div class="logo">
         <a href="index.html">
           <img src="logo.jpg" alt="Vaughn Miller">
@@ -22,45 +21,74 @@
 
       <nav class="nav-links">
         <a href="index.html">Home</a>
-        <a href="work.html"> Gallery</a>
+        <a href="work.html">Gallery</a>
         <a href="about.html">About</a>
         <a href="contact.html">Contact</a>
       </nav>
-
     </div>
   </header>
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-text">
+
+    <div class="hero-slides">
+      <div class="slide active" style="background-image: url('photo1.jpg');"></div>
+      <div class="slide" style="background-image: url('photo3.JPG');"></div>
+    </div>
+
+    <div class="hero-content">
       <h1>Vaughn Miller</h1>
-      <p>Photography • Milwaukee • Street & Low Light</p>
+      <p>Capturing Atmosphere, Motion & Light</p>
+      <a href="work.html" class="hero-btn">View Gallery</a>
+    </div>
+
+  </section>
+
+  <!-- FEATURED WORK -->
+  <section class="featured">
+    <h2>Featured Work</h2>
+
+    <div class="featured-grid">
+      <img src="photo1.jpg" alt="Featured photography">
+      <img src="photo3.JPG" alt="Featured photography">
+      <img src="images/gallery/5.JPG" alt="Featured photography">
     </div>
   </section>
 
-  <!-- MAIN CONTENT -->
-  <main class="second-body">
+  <!-- ABOUT PREVIEW -->
+  <section class="about-preview">
+    <h2>About</h2>
+    <p>
+      I’m a Milwaukee-based photographer focused on street and low-light imagery,
+      capturing atmosphere, architecture, and quiet intensity through intentional composition.
+    </p>
+    <a href="about.html" class="secondary-btn">Learn More</a>
+  </section>
 
-    <img class="img" src="photo1.jpg" alt="Photography work">
+  <!-- CONTACT SECTION -->
+  <section class="contact-section">
+    <h2>Contact</h2>
+    <p>
+      Instagram: @vaughnmiler27<br>
+      Email: vaughnmiller007@gmail.com
+    </p>
+    <a href="https://instagram.com/vaughnmiler27" target="_blank" class="secondary-btn">
+      View on Instagram
+    </a>
+  </section>
 
-    <section class="contact">
-      <a href="work.html">View gallery</a>
-    </section>
-
-    <section class="contact">
-      <h2>Contact</h2>
-      <p>
-        Instagram: @vaughnmiler27<br>
-        Email: vaughnmiller007@gmail.com
-      </p>
-      <a href="https://instagram.com/vaughnmiler27">View on Instagram</a>
-    </section>
-
-  </main>
-
-  <footer>
-    © 2026 Vaughn Miller — All Rights Reserved
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p>© 2026 Vaughn Miller</p>
+      <div class="footer-links">
+        <a href="work.html">Gallery</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
   </footer>
 
+  <script src="index.js"></script>
 </body>
 </html>
