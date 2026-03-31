@@ -4,7 +4,7 @@ const lightboxImg = document.getElementById('lightbox-img');
 const caption = document.getElementById('lightbox-caption');
 const closeBtn = document.getElementById('close-lightbox');
 
-const totalImages = 21; // your actual number of images
+const totalImages = 21; // number of images you have
 const gap = 25;
 
 let allImages = [];
@@ -24,7 +24,11 @@ function preloadImages(callback) {
 
   for (let i = 1; i <= totalImages; i++) {
     const img = new Image();
-    img.src = `images/gallery/${i}.jpg`;
+    
+    // Zero-pad filenames: "01.jpg", "02.jpg", ...
+    const num = String(i).padStart(2, '0');
+    img.src = `images/gallery/${num}.jpg`;
+    
     img.alt = '';
     img.className = 'gallery-item';
     img.style.width = '100%';
@@ -38,15 +42,16 @@ function preloadImages(callback) {
       caption.textContent = img.alt;
     });
 
+    // Track when images are loaded
     img.onload = img.onerror = () => {
       loadedCount++;
-      allImages.push(img); // add whether it loads or fails
-      if (loadedCount === totalImages) callback();
+      allImages.push(img);
+      if (loadedCount === totalImages) callback(); // when all done, build columns
     };
   }
 }
 
-// Assign images to columns
+// Create masonry columns and assign images
 function createColumns() {
   gallery.innerHTML = '';
   const columns = getColumnCount();
@@ -82,7 +87,7 @@ function createColumns() {
 // Initialize gallery
 preloadImages(createColumns);
 
-// Rebuild on resize
+// Rebuild on window resize
 window.addEventListener('resize', () => createColumns());
 
 // Lightbox close
