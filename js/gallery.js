@@ -4,7 +4,7 @@ const lightboxImg = document.getElementById('lightbox-img');
 const caption = document.getElementById('lightbox-caption');
 const closeBtn = document.getElementById('close-lightbox');
 
-const totalImages = 999;
+const totalImages = 21; // Update to your actual number of images
 const gap = 25;
 
 let allImages = [];
@@ -23,22 +23,27 @@ function createImages() {
   for (let i = 1; i <= totalImages; i++) {
     const img = document.createElement('img');
     img.src = `images/gallery/${i}.jpg`;
-    img.alt = '';
+    img.alt = ''; 
     img.className = 'gallery-item';
     img.style.width = '100%';
     img.style.display = 'block';
+    img.loading = 'lazy'; // improves performance
 
+    // Lightbox click
     img.addEventListener('click', () => {
       lightbox.style.display = 'flex';
       lightboxImg.src = img.src;
       caption.textContent = img.alt;
     });
 
+    // Warn if image missing
+    img.onerror = () => console.warn(`Missing image: ${img.src}`);
+
     allImages.push(img);
   }
 }
 
-// Create columns
+// Create columns and assign images
 function createColumns() {
   gallery.innerHTML = '';
   const columns = getColumnCount();
@@ -61,36 +66,35 @@ function createColumns() {
   gallery.style.gap = gap + 'px';
   gallery.style.justifyContent = 'center';
 
+  // Initialize column heights
   const columnHeights = Array(columns).fill(0);
 
-  // Assign images after they load
+  // Assign images reliably after they load
   allImages.forEach(img => {
-    if (img.complete) {
-      assignImage(img, columnHeights);
-    } else {
-      img.onload = () => assignImage(img, columnHeights);
-    }
+    img.onload = () => assignImage(img, columnHeights);
+    img.onerror = () => console.warn(`Failed to load: ${img.src}`);
+    if (img.complete) assignImage(img, columnHeights); // already cached images
   });
 }
 
-// Function to assign image to shortest column
+// Function to assign image to the shortest column
 function assignImage(img, columnHeights) {
   const minHeight = Math.min(...columnHeights);
   const colIndex = columnHeights.indexOf(minHeight);
   columnElements[colIndex].appendChild(img);
-  columnHeights[colIndex] += img.height + gap;
+
+  // Use offsetHeight instead of img.height for accurate rendered height
+  columnHeights[colIndex] += img.offsetHeight + gap;
 }
 
-// Initialize
+// Initialize gallery
 createImages();
 createColumns();
 
-// Rebuild on resize
-window.addEventListener('resize', () => {
-  createColumns();
-});
+// Rebuild on window resize
+window.addEventListener('resize', () => createColumns());
 
-// Lightbox close
+// Lightbox close handlers
 closeBtn.addEventListener('click', () => {
   lightbox.style.display = 'none';
 });
