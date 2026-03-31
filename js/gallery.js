@@ -4,7 +4,7 @@ const lightboxImg = document.getElementById('lightbox-img');
 const caption = document.getElementById('lightbox-caption');
 const closeBtn = document.getElementById('close-lightbox');
 
-const totalImages = 21; // Update to your actual number of images
+const totalImages = 21; // your actual number of images
 const gap = 25;
 
 let allImages = [];
@@ -18,16 +18,18 @@ function getColumnCount() {
   return 3;
 }
 
-// Create image elements once
-function createImages() {
+// Preload all images
+function preloadImages(callback) {
+  let loadedCount = 0;
+
   for (let i = 1; i <= totalImages; i++) {
-    const img = document.createElement('img');
+    const img = new Image();
     img.src = `images/gallery/${i}.jpg`;
-    img.alt = ''; 
+    img.alt = '';
     img.className = 'gallery-item';
     img.style.width = '100%';
     img.style.display = 'block';
-    img.loading = 'lazy'; // improves performance
+    img.loading = 'lazy';
 
     // Lightbox click
     img.addEventListener('click', () => {
@@ -36,14 +38,15 @@ function createImages() {
       caption.textContent = img.alt;
     });
 
-    // Warn if image missing
-    img.onerror = () => console.warn(`Missing image: ${img.src}`);
-
-    allImages.push(img);
+    img.onload = img.onerror = () => {
+      loadedCount++;
+      allImages.push(img); // add whether it loads or fails
+      if (loadedCount === totalImages) callback();
+    };
   }
 }
 
-// Create columns and assign images
+// Assign images to columns
 function createColumns() {
   gallery.innerHTML = '';
   const columns = getColumnCount();
@@ -66,35 +69,23 @@ function createColumns() {
   gallery.style.gap = gap + 'px';
   gallery.style.justifyContent = 'center';
 
-  // Initialize column heights
   const columnHeights = Array(columns).fill(0);
 
-  // Assign images reliably after they load
   allImages.forEach(img => {
-    img.onload = () => assignImage(img, columnHeights);
-    img.onerror = () => console.warn(`Failed to load: ${img.src}`);
-    if (img.complete) assignImage(img, columnHeights); // already cached images
+    const minHeight = Math.min(...columnHeights);
+    const colIndex = columnHeights.indexOf(minHeight);
+    columnElements[colIndex].appendChild(img);
+    columnHeights[colIndex] += img.offsetHeight + gap;
   });
 }
 
-// Function to assign image to the shortest column
-function assignImage(img, columnHeights) {
-  const minHeight = Math.min(...columnHeights);
-  const colIndex = columnHeights.indexOf(minHeight);
-  columnElements[colIndex].appendChild(img);
-
-  // Use offsetHeight instead of img.height for accurate rendered height
-  columnHeights[colIndex] += img.offsetHeight + gap;
-}
-
 // Initialize gallery
-createImages();
-createColumns();
+preloadImages(createColumns);
 
-// Rebuild on window resize
+// Rebuild on resize
 window.addEventListener('resize', () => createColumns());
 
-// Lightbox close handlers
+// Lightbox close
 closeBtn.addEventListener('click', () => {
   lightbox.style.display = 'none';
 });
