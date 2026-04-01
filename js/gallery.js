@@ -1,30 +1,41 @@
-// ===============================
-// 🔴🔴🔴 CHANGE THIS NUMBER 🔴🔴🔴
-// ===============================
-const totalImages = 21; 
-// 👆 SET THIS TO HOW MANY IMAGES YOU HAVE
-// Example:
-// 21 images → 21
-// 9 images → 9
-// ===============================
-
-
 const gallery = document.getElementById('gallery');
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightbox-img');
 const caption = document.getElementById('lightbox-caption');
 const closeBtn = document.getElementById('close-lightbox');
 
+const totalImages = 999;
 const gap = 25;
 
+let allImages = [];
 let columnElements = [];
 
-// Determine column count
+// Determine column count based on screen width
 function getColumnCount() {
   const w = window.innerWidth;
   if (w < 600) return 1;
   if (w < 900) return 2;
   return 3;
+}
+
+// Create image elements once
+function createImages() {
+  for (let i = 1; i <= totalImages; i++) {
+    const img = document.createElement('img');
+    img.src = `images/gallery/${i}.jpg`;
+    img.alt = '';
+    img.className = 'gallery-item';
+    img.style.width = '100%';
+    img.style.display = 'block';
+
+    img.addEventListener('click', () => {
+      lightbox.style.display = 'flex';
+      lightboxImg.src = img.src;
+      caption.textContent = img.alt;
+    });
+
+    allImages.push(img);
+  }
 }
 
 // Create columns
@@ -35,64 +46,48 @@ function createColumns() {
 
   for (let i = 0; i < columns; i++) {
     const col = document.createElement('div');
-    col.style.display = 'flex';
-    col.style.flexDirection = 'column';
-    col.style.gap = gap + 'px';
-    col.style.width = `calc((100% - ${(columns - 1) * gap}px) / ${columns})`;
-
+    col.className = 'masonry-column';
+    col.style.cssText = `
+      display: flex;
+      flex-direction: column;
+      gap: ${gap}px;
+      width: calc((100% - ${(columns - 1) * gap}px) / ${columns});
+    `;
     gallery.appendChild(col);
     columnElements.push(col);
   }
 
   gallery.style.display = 'flex';
   gallery.style.gap = gap + 'px';
+  gallery.style.justifyContent = 'center';
+
+  const columnHeights = Array(columns).fill(0);
+
+  // Assign images after they load
+  allImages.forEach(img => {
+    if (img.complete) {
+      assignImage(img, columnHeights);
+    } else {
+      img.onload = () => assignImage(img, columnHeights);
+    }
+  });
 }
 
-// Load images
-function loadImages() {
-  for (let i = 1; i <= totalImages; i++) {
-    const img = document.createElement('img');
-
-    // If your files are 01.jpg, 02.jpg, etc.
-    const num = String(i).padStart(2, '0');
-
-    img.src = `images/gallery/${num}.jpg`;
-
-    img.className = 'gallery-item';
-    img.style.width = '100%';
-    img.style.display = 'block';
-    img.loading = 'lazy';
-
-    // Lightbox
-    img.addEventListener('click', () => {
-      lightbox.style.display = 'flex';
-      lightboxImg.src = img.src;
-      caption.textContent = img.alt;
-    });
-
-    // Add to shortest column AFTER load
-    img.onload = () => {
-      const shortestCol = columnElements.reduce((prev, curr) =>
-        prev.offsetHeight < curr.offsetHeight ? prev : curr
-      );
-      shortestCol.appendChild(img);
-    };
-
-    // Show missing images in console
-    img.onerror = () => {
-      console.warn(`❌ Missing: ${img.src}`);
-    };
-  }
+// Function to assign image to shortest column
+function assignImage(img, columnHeights) {
+  const minHeight = Math.min(...columnHeights);
+  const colIndex = columnHeights.indexOf(minHeight);
+  columnElements[colIndex].appendChild(img);
+  columnHeights[colIndex] += img.height + gap;
 }
 
 // Initialize
+createImages();
 createColumns();
-loadImages();
 
 // Rebuild on resize
 window.addEventListener('resize', () => {
   createColumns();
-  loadImages();
 });
 
 // Lightbox close
