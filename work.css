@@ -144,4 +144,62 @@ p{
   color:#eaeaea;
 }
 
+/* ---------- FOOTER ---------- */
+.site-footer {
+  background: #0a0a0a;
+  padding: 30px 10%;
+  color: #888;
+  font-size: 14px;
+}
 
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-links a {
+  color: #888;
+  margin-left: 20px;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: white;
+}
+
+/* Filter Buttons Container */
+.filter-buttons {
+  text-align: center;
+  margin: 25px 0;
+}
+
+/* Individual Buttons */
+.filter-buttons button {
+  background-color: #fff;       /* White background */
+  color: #333;                  /* Dark text */
+  border: 2px solid #333;       /* Dark border */
+  padding: 12px 30px;           /* Bigger size */
+  margin: 8px;                  /* More space between buttons */
+  cursor: pointer;              /* Pointer on hover */
+  font-size: 20px;              /* Larger text */
+  border-radius: 8px;           /* Slightly more rounded corners */
+  transition: all 0.3s ease;    /* Smooth hover effect */
+}
+
+/* Hover Effect */
+.filter-buttons button:hover {
+  background-color: #333;       /* Dark background */
+  color: #fff;                  /* White text */
+  transform: scale(1.1);        /* Slightly bigger zoom */
+}
+
+/* Active Button */
+.filter-buttons .active {
+  background-color: #333;       /* Dark background */
+  color: #fff;                  /* White text */
+  border-color: #333;           /* Match border */
+  font-weight: bold;
+  transform: scale(1.1);        /* Slight zoom to match hover */
+}
