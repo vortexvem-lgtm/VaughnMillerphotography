@@ -9,10 +9,10 @@
 </head>
 
 <body>
+
 <!-- NAV BAR -->
 <header class="site-header">
   <div class="top-bar">
-
     <div class="logo">
       <a href="index.html">
         <img src="logo.jpg" alt="Vaughn Miller">
@@ -25,30 +25,31 @@
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
     </nav>
-
   </div>
 </header>
 
+<!-- HEADER -->
+<section class="hero">
+  <div class="hero-text">
+    <h1>Photo Gallery</h1>
+    <p>my latest work</p>
+  </div>
+</section>
 
-  <!-- HEADER -->
-   <section class="hero">
-    <div class="hero-text">
-      <h1>Photo Gallery</h1>
-      <p>my latest work</p>
-    </div>
-  </header>
-   </section>
-  <!-- Main page content -->
-  <main>
-<div class="gallery" id="gallery"></div>
-
-    <!-- Gallery container (ONLY ONE) -->
-    <div class="gallery" id="gallery"></div>
-  </main>
+<!-- FILTER BUTTONS -->
+<div class="filter-buttons">
   
-  <div class="gallery" id="gallery"></div>
+  <button data-filter="Portraits">Portraits</button>
+  <button data-filter="Street">Street</button>
+  <button data-filter="Other">other</button>
+</div>
 
-<!-- Lightbox overlay -->
+<!-- GALLERY -->
+<main>
+  <div class="gallery" id="gallery"></div>
+</main>
+
+<!-- LIGHTBOX -->
 <div id="lightbox" class="lightbox">
   <span id="close-lightbox">&times;</span>
   <img id="lightbox-img" src="" alt="Full view">
@@ -56,19 +57,18 @@
 </div>
 
 <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="footer-content">
-      <p>© 2026 Vaughn Miller</p>
-      <div class="footer-links">
-        <a href="work.html">Gallery</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-      </div>
+<footer class="site-footer">
+  <div class="footer-content">
+    <p>© 2026 Vaughn Miller</p>
+    <div class="footer-links">
+      <a href="work.html">Gallery</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
     </div>
-  </footer>
+  </div>
+</footer>
 
-  <!-- External JavaScript -->
-  <script src="js/gallery.js"></script>
+<script src="js/gallery.js"></script>
 
 </body>
 </html>
