@@ -8,9 +8,21 @@ const totalImages = 999;
 const gap = 25;
 
 let allImages = [];
+let filteredImages = [];
 let columnElements = [];
+let currentFilter = "all";
 
-// Determine column count based on screen width
+
+// 🔥 EDIT YOUR CATEGORIES HERE
+function getCategory(index) {
+  if (index >= 1 && index <= 300) return "Street";
+  if (index >= 301 && index <= 650) return "Portraits";
+  if (index >= 651 && index <= 999) return "Other";
+  return "cars"; // default fallback if needed
+}
+
+
+// COLUMN COUNT
 function getColumnCount() {
   const w = window.innerWidth;
   if (w < 600) return 1;
@@ -18,7 +30,8 @@ function getColumnCount() {
   return 3;
 }
 
-// Create image elements once
+
+// CREATE IMAGES
 function createImages() {
   for (let i = 1; i <= totalImages; i++) {
     const img = document.createElement('img');
@@ -28,6 +41,8 @@ function createImages() {
     img.style.width = '100%';
     img.style.display = 'block';
 
+    img.dataset.category = getCategory(i);
+
     img.addEventListener('click', () => {
       lightbox.style.display = 'flex';
       lightboxImg.src = img.src;
@@ -36,9 +51,26 @@ function createImages() {
 
     allImages.push(img);
   }
+
+  filteredImages = [...allImages];
 }
 
-// Create columns
+
+// APPLY FILTER
+function applyFilter() {
+  if (currentFilter === "all") {
+    filteredImages = [...allImages];
+  } else {
+    filteredImages = allImages.filter(
+      img => img.dataset.category === currentFilter
+    );
+  }
+
+  createColumns();
+}
+
+
+// CREATE COLUMNS
 function createColumns() {
   gallery.innerHTML = '';
   const columns = getColumnCount();
@@ -63,8 +95,7 @@ function createColumns() {
 
   const columnHeights = Array(columns).fill(0);
 
-  // Assign images after they load
-  allImages.forEach(img => {
+  filteredImages.forEach(img => {
     if (img.complete) {
       assignImage(img, columnHeights);
     } else {
@@ -73,7 +104,8 @@ function createColumns() {
   });
 }
 
-// Function to assign image to shortest column
+
+// ASSIGN IMAGE
 function assignImage(img, columnHeights) {
   const minHeight = Math.min(...columnHeights);
   const colIndex = columnHeights.indexOf(minHeight);
@@ -81,19 +113,39 @@ function assignImage(img, columnHeights) {
   columnHeights[colIndex] += img.height + gap;
 }
 
-// Initialize
-createImages();
-createColumns();
 
-// Rebuild on resize
+// FILTER BUTTONS
+const buttons = document.querySelectorAll(".filter-buttons button");
+
+buttons.forEach(button => {
+  button.addEventListener("click", () => {
+    buttons.forEach(btn => btn.classList.remove("active"));
+    button.classList.add("active");
+
+    currentFilter = button.getAttribute("data-filter");
+    applyFilter();
+  });
+});
+
+
+// INIT
+createImages();
+applyFilter();
+
+
+// RESIZE
 window.addEventListener('resize', () => {
   createColumns();
 });
 
-// Lightbox close
+
+// LIGHTBOX CLOSE
 closeBtn.addEventListener('click', () => {
   lightbox.style.display = 'none';
 });
+
 lightbox.addEventListener('click', e => {
-  if (e.target === lightbox) lightbox.style.display = 'none';
+  if (e.target === lightbox) {
+    lightbox.style.display = 'none';
+  }
 });
