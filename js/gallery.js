@@ -11,15 +11,24 @@ let filteredImages = [];
 let columnElements = [];
 let currentFilter = "all";
 
+// 🔥 REPO INFO — update if you ever rename the repo or change branch
+const REPO_OWNER = "vortexvem-lgtm";
+const REPO_NAME = "VaughnMillerphotography";
+const BRANCH = "main"; // change to "master" if that's your default branch
 
-// 🔥 EDIT YOUR REAL PHOTOS HERE
-// Just add the image number to the right category array below.
-// Only numbers listed here will ever be requested — no more guessing/404s.
-const categoryMap = {
-  Street:    [1, 2, 3, 4],
-  Portraits: [301, 302, 303, 304, 305, 306, 307],
-  Other:     []
+// 🔥 CATEGORY FOLDERS — one subfolder per category, nothing else to edit
+const categoryFolders = {
+  Street: "images/gallery/street",
+  Portraits: "images/gallery/portraits",
+  Other: "images/gallery/other"
 };
+
+const IMAGE_EXTENSIONS = [".jpg", ".jpeg", ".png"];
+
+function isImageFile(filename) {
+  const lower = filename.toLowerCase();
+  return IMAGE_EXTENSIONS.some(ext => lower.endsWith(ext));
+}
 
 
 // COLUMN COUNT
@@ -31,37 +40,70 @@ function getColumnCount() {
 }
 
 
-// CREATE IMAGES (only the ones that actually exist)
-function createImages() {
-  Object.entries(categoryMap).forEach(([category, numbers]) => {
-    numbers.forEach(num => {
-      const img = document.createElement('img');
-      img.src = `images/gallery/${num}.jpg`;
-      img.alt = '';
-      img.className = 'gallery-item';
-      img.style.width = '100%';
-      img.style.display = 'block';
-      img.dataset.category = category;
+// FETCH ONE FOLDER'S CONTENTS FROM GITHUB
+async function fetchFolder(path) {
+  const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}?ref=${BRANCH}`;
 
-      // If a file listed here is ever missing/renamed, don't let it
-      // break the layout — just drop it silently instead of hanging.
-      img.addEventListener('error', () => {
-        img.remove();
-        allImages = allImages.filter(i => i !== img);
-        filteredImages = filteredImages.filter(i => i !== img);
-      });
+  try {
+    const res = await fetch(url);
+    if (!res.ok) {
+      console.warn(`Could not load folder: ${path} (status ${res.status})`);
+      return [];
+    }
+    const data = await res.json();
+    return data
+      .filter(item => item.type === "file" && isImageFile(item.name))
+      .map(item => item.download_url);
+  } catch (err) {
+    console.warn(`Error loading folder: ${path}`, err);
+    return [];
+  }
+}
 
-      img.addEventListener('click', () => {
-        lightbox.style.display = 'flex';
-        lightboxImg.src = img.src;
-        caption.textContent = img.alt;
-      });
 
-      allImages.push(img);
+// BUILD IMAGE ELEMENTS FROM A LIST OF URLS + CATEGORY
+function buildImages(urls, category) {
+  return urls.map(url => {
+    const img = document.createElement('img');
+    img.src = url;
+    img.alt = '';
+    img.className = 'gallery-item';
+    img.style.width = '100%';
+    img.style.display = 'block';
+    img.dataset.category = category;
+
+    img.addEventListener('error', () => {
+      img.remove();
+      allImages = allImages.filter(i => i !== img);
+      filteredImages = filteredImages.filter(i => i !== img);
     });
+
+    img.addEventListener('click', () => {
+      lightbox.style.display = 'flex';
+      lightboxImg.src = img.src;
+      caption.textContent = img.alt;
+    });
+
+    return img;
+  });
+}
+
+
+// LOAD ALL CATEGORIES
+async function loadAllImages() {
+  const entries = Object.entries(categoryFolders);
+
+  const results = await Promise.all(
+    entries.map(([category, path]) => fetchFolder(path))
+  );
+
+  results.forEach((urls, i) => {
+    const [category] = entries[i];
+    allImages.push(...buildImages(urls, category));
   });
 
   filteredImages = [...allImages];
+  applyFilter();
 }
 
 
@@ -138,8 +180,7 @@ buttons.forEach(button => {
 
 
 // INIT
-createImages();
-applyFilter();
+loadAllImages();
 
 
 // RESIZE
