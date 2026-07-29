@@ -4,7 +4,6 @@ const lightboxImg = document.getElementById('lightbox-img');
 const caption = document.getElementById('lightbox-caption');
 const closeBtn = document.getElementById('close-lightbox');
 
-const totalImages = 999;
 const gap = 25;
 
 let allImages = [];
@@ -13,13 +12,14 @@ let columnElements = [];
 let currentFilter = "all";
 
 
-// 🔥 EDIT YOUR CATEGORIES HERE
-function getCategory(index) {
-  if (index >= 1 && index <= 300) return "Street";
-  if (index >= 301 && index <= 650) return "Portraits";
-  if (index >= 651 && index <= 999) return "Other";
-  return "cars"; // default fallback if needed
-}
+// 🔥 EDIT YOUR REAL PHOTOS HERE
+// Just add the image number to the right category array below.
+// Only numbers listed here will ever be requested — no more guessing/404s.
+const categoryMap = {
+  Street:    [1, 2, 3, 4],
+  Portraits: [301, 302, 303, 304, 305, 306, 307],
+  Other:     []
+};
 
 
 // COLUMN COUNT
@@ -31,26 +31,35 @@ function getColumnCount() {
 }
 
 
-// CREATE IMAGES
+// CREATE IMAGES (only the ones that actually exist)
 function createImages() {
-  for (let i = 1; i <= totalImages; i++) {
-    const img = document.createElement('img');
-    img.src = `images/gallery/${i}.jpg`;
-    img.alt = '';
-    img.className = 'gallery-item';
-    img.style.width = '100%';
-    img.style.display = 'block';
+  Object.entries(categoryMap).forEach(([category, numbers]) => {
+    numbers.forEach(num => {
+      const img = document.createElement('img');
+      img.src = `images/gallery/${num}.jpg`;
+      img.alt = '';
+      img.className = 'gallery-item';
+      img.style.width = '100%';
+      img.style.display = 'block';
+      img.dataset.category = category;
 
-    img.dataset.category = getCategory(i);
+      // If a file listed here is ever missing/renamed, don't let it
+      // break the layout — just drop it silently instead of hanging.
+      img.addEventListener('error', () => {
+        img.remove();
+        allImages = allImages.filter(i => i !== img);
+        filteredImages = filteredImages.filter(i => i !== img);
+      });
 
-    img.addEventListener('click', () => {
-      lightbox.style.display = 'flex';
-      lightboxImg.src = img.src;
-      caption.textContent = img.alt;
+      img.addEventListener('click', () => {
+        lightbox.style.display = 'flex';
+        lightboxImg.src = img.src;
+        caption.textContent = img.alt;
+      });
+
+      allImages.push(img);
     });
-
-    allImages.push(img);
-  }
+  });
 
   filteredImages = [...allImages];
 }
@@ -96,7 +105,7 @@ function createColumns() {
   const columnHeights = Array(columns).fill(0);
 
   filteredImages.forEach(img => {
-    if (img.complete) {
+    if (img.complete && img.naturalWidth > 0) {
       assignImage(img, columnHeights);
     } else {
       img.onload = () => assignImage(img, columnHeights);
