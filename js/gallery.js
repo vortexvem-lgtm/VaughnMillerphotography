@@ -19,7 +19,7 @@ const BRANCH = "main"; // change to "master" if that's your default branch
 // 🔥 CATEGORY FOLDERS — one subfolder per category, nothing else to edit
 const categoryFolders = {
   Street: "images/gallery/street",
-  Portraits: "images/gallery/portraits",
+  Portraits: "images/gallery/portrait",
   Other: "images/gallery/other"
 };
 
